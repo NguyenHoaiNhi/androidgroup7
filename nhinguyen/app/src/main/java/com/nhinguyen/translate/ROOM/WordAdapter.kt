@@ -38,7 +38,6 @@ class WordAdapter(var items: ArrayList<Word>, val context: Context) : RecyclerVi
         if(p1 % 2 != 0)
         {
             p0.btnRemove.setBackgroundResource(R.drawable.backgroung2)
-            p0.background.setBackgroundResource(R.drawable.backgroung2)
         }
 
         p0.btnRemove.setOnClickListener{
