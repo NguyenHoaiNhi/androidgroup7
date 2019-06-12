@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -16,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.GridView
 import android.widget.Toast
 import com.nhinguyen.translate.DATABASE_NAME
 import com.nhinguyen.translate.R
@@ -31,7 +33,6 @@ class FoldersFragment: Fragment() {
     var folder: ArrayList<Folder> = ArrayList()
     lateinit var folderAdapter: FolderAdapter
     lateinit var daofolder: FolderDAO
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_folder, container, false)
@@ -56,7 +57,7 @@ class FoldersFragment: Fragment() {
     }
 
     private fun setupRecycleView() {
-        rvFolder.layoutManager = LinearLayoutManager(getContext()!!)
+        rvFolder.layoutManager = GridLayoutManager(getContext()!!,2 )
 
         folderAdapter = FolderAdapter(folder, getContext()!!)
 
@@ -66,7 +67,6 @@ class FoldersFragment: Fragment() {
     }
 
     private fun createNewFolder(){
-        //val context = this
         val builder = AlertDialog.Builder(getContext())
         builder.setTitle("New Folder")
         val view = layoutInflater.inflate(R.layout.new_folder_dialog,null)
@@ -77,19 +77,18 @@ class FoldersFragment: Fragment() {
         builder.show()
     }
     private fun createDataFolder(textFolder: EditText? ){
-        //Log.d("msg", textFolder?.text.toString())
-        // var compareFolder = daofolder.finByName(textFolder?.text.toString())
-        // Log.i("msg",compareFolder.folderName)
-//        if(compareFolder.folderName) {
-//            Toast.makeText(this@FoldersFragment.context, "Folder already existed" , Toast.LENGTH_SHORT).show()
-//            return
-//        }
         val text = textFolder?.text.toString()
+        var compare : Folder? = daofolder.finByName(text)
+        if(compare?.folderName != null){
+            Toast.makeText(this@FoldersFragment.context, "Folder already existed" , Toast.LENGTH_SHORT).show()
+           return
+        }
+
         val folder = Folder()
         if(text == "") Log.d("msg", "Nothing input")
         else{
             folder.folderName = text
-            daofolder.insert(folder)
+            folder.id = daofolder.insert(folder).toInt()
             folderAdapter.appenData(folder)
         }
     }

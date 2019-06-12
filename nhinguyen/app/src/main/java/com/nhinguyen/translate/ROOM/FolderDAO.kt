@@ -12,7 +12,7 @@ interface FolderDAO {
     fun findById(id: Int): Folder
 
     @Query("SELECT * FROM folder WHERE folderName=:folder_name")
-    fun finByName(folder_name: String): Folder
+    fun finByName(folder_name: String?): Folder?
     @Insert
     fun insertAll(vararg todo: Folder) : List<Long>
 
