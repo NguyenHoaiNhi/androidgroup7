@@ -5,6 +5,7 @@
               android:id="@+id/rootDialog"
               android:orientation="vertical"
               android:padding="10dp"
+              android:background="@drawable/backgroung1"
 >
 
     <EditText android:layout_width="match_parent"
@@ -18,6 +19,6 @@
             android:layout_gravity="right"
             android:background="@android:color/transparent"
             android:text="Create"
-            android:textSize="20dp"
+            android:textSize="15dp"
     />
 </LinearLayout>
