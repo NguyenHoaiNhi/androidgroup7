@@ -8,13 +8,14 @@
         android:layout_margin="2dp"
         app:cardCornerRadius="4dp"
         android:orientation="vertical"
+        android:id="@+id/iBackground"
+        android:background="@drawable/backgroung1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
     <LinearLayout
             android:orientation="horizontal"
-            android:background="@drawable/backgroung1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -28,7 +29,7 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="130dp"
-                android:layout_height="50dp">
+                android:layout_height="wrap_content">
 
             <TextView
                     android:id="@+id/language1"
@@ -54,11 +55,11 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="130dp"
-                android:layout_height="50dp">
+                android:layout_height="wrap_content">
 
             <TextView
                     android:id="@+id/language2"
-                    android:background="@drawable/background"
+                    android:background="@drawable/background1"
                     android:textAlignment="center"
                     android:hint="Vietnamses"
                     android:layout_width="match_parent"
@@ -74,14 +75,20 @@
 
         </LinearLayout>
 
-
-        <ImageButton
-                android:layout_marginLeft="20dp"
-                android:id="@+id/btnRemove"
-                android:background="#FAFBFD"
+        <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/trash"/>
+                android:layout_marginLeft="20dp">
+
+            <ImageButton
+                    android:layout_centerVertical="true"
+                    android:id="@+id/btnRemove"
+                    android:background="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/trash"/>
+
+        </RelativeLayout>
 
 
     </LinearLayout>

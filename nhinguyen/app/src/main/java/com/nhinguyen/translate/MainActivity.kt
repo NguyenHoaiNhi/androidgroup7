@@ -4,6 +4,7 @@ package com.nhinguyen.translate
 import android.app.Activity
 import android.arch.persistence.room.Room
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.speech.tts.TextToSpeech.OnInitListener
 import android.support.v4.content.ContextCompat.startActivity
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
 import android.view.animation.TranslateAnimation
@@ -58,7 +60,9 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Stetho.initializeWithDefaults(this)
+
+//        var app_bar1 = findViewById<Toolbar>(R.id.app_bar)
+//        setSupportActionBar(app_bar1)
 
         // Init database
         initRoomDatabase()
@@ -328,6 +332,10 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         s2 = findViewById(R.id.spinner2)
         s2.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,spinnerData)
+
+        // Set default value for spinner
+        s2.setSelection(getIndex(spinner2, "Vietnamese"))
+
         s2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     tvVietnamese.text = s2.getItemAtPosition(p2).toString()
@@ -337,6 +345,17 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
         }
     }
+
+    private fun getIndex( spinner : Spinner,  myString : String) : Int{
+     for (i in 0..spinner.count)
+     {
+         if (spinner.getItemAtPosition(i).toString().equals(myString)){
+             return i
+         }
+     }
+
+     return 0
+ }
 
     private fun initRoomDatabase(){
         val db  = Room.databaseBuilder(

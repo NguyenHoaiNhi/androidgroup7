@@ -33,8 +33,21 @@ class WordAdapter(var items: ArrayList<Word>, val context: Context) : RecyclerVi
         p0.tvVietnamese.text = items[p1].content_language2
         p0.language1.text = items[p1].language1
         p0.language2.text = items[p1].language2
+
+        // Set background
+        if(p1 % 2 != 0)
+        {
+            p0.btnRemove.setBackgroundResource(R.drawable.backgroung2)
+        }
+
         p0.btnRemove.setOnClickListener{
+            mListener.onItemTrashCLicked(p1)
+        }
+
+        p0.itemView.setOnClickListener{
             mListener.onItemCLicked(p1)
+
+
         }
         p0.itemView.setOnLongClickListener {
             mListener.onItemLongCLicked(items[p1].id!!)
@@ -46,36 +59,10 @@ class WordAdapter(var items: ArrayList<Word>, val context: Context) : RecyclerVi
         this.mListener = listener
     }
 
-    fun removeItem(userRemove: Word, i: Int){
+    fun removeItem(userRemove: Word, i: Int) {
         this.items.remove(userRemove)
         notifyItemRemoved(i)
     }
-
-//    fun setData(items: ArrayList<Word>) {
-//        this.items = items
-//    }
-
-//    fun appenData(word: Word) {
-//        this.items.add(word)
-//        notifyItemInserted(items.size - 1)
-//    }
-//    fun availableItem(word : Word):Boolean {
-//        val size = this.items.size
-//
-//        if (size > 0)
-//        {
-//            for (i in 0 until size)
-//            {
-//                if(this.items[i].english == word.english && this.items[i].vietnamese == word.vietnamese)
-//                {
-//                    return false
-//                }
-//            }
-//        }
-//
-//        return true
-//    }
-
 }
 
 class WordViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -84,4 +71,5 @@ class WordViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     var btnRemove = view.btnRemove
     var language1 = view.language1
     var language2 = view.language2
+    var background = view.iBackground
 }
