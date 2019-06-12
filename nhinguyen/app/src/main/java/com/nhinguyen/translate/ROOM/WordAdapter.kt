@@ -33,6 +33,14 @@ class WordAdapter(var items: ArrayList<Word>, val context: Context) : RecyclerVi
         p0.tvVietnamese.text = items[p1].content_language2
         p0.language1.text = items[p1].language1
         p0.language2.text = items[p1].language2
+
+        // Set background
+        if(p1 % 2 != 0)
+        {
+            p0.btnRemove.setBackgroundResource(R.drawable.backgroung2)
+            p0.background.setBackgroundResource(R.drawable.backgroung2)
+        }
+
         p0.btnRemove.setOnClickListener{
             mListener.onItemCLicked(p1)
         }
@@ -84,4 +92,5 @@ class WordViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     var btnRemove = view.btnRemove
     var language1 = view.language1
     var language2 = view.language2
+    var background = view.iBackground
 }

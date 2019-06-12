@@ -25,6 +25,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.schedule
 import android.content.DialogInterface
+import android.graphics.Color
+
 //import android.R
 
 
@@ -47,6 +49,7 @@ class FavoriteFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         initRoomDatabase()
 
         setupRecycleView()
