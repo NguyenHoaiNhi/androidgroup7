@@ -10,11 +10,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import com.nhinguyen.translate.Fragment.FolderAdapter
 import com.nhinguyen.translate.ROOM.*
+import com.nhinguyen.translate.activity.FolderActivityAdapter
 import kotlinx.android.synthetic.main.folder_activity.*
 
 
 class FolderActivity: AppCompatActivity() {
-    lateinit var wordAdapter: WordAdapter
+    lateinit var folderActivityAdapter: FolderActivityAdapter
     lateinit var dao: WordDAO
     private var idFolder: Int? = null
     private var nameFolder: String = ""
@@ -39,7 +40,7 @@ class FolderActivity: AppCompatActivity() {
     private fun getDataWord(name: String){
         words = ArrayList(dao.findByNameFolder(name))
         rvFavorite.layoutManager = LinearLayoutManager(this)
-        wordAdapter = WordAdapter(words, this)
-        rvFavorite.adapter = wordAdapter
+        folderActivityAdapter = FolderActivityAdapter(words, this)
+        rvFavorite.adapter = folderActivityAdapter
     }
 }

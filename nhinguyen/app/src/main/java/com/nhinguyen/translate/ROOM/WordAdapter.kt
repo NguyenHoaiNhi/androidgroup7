@@ -37,7 +37,7 @@ class WordAdapter(var items: ArrayList<Word>, val context: Context) : RecyclerVi
             mListener.onItemCLicked(p1)
         }
         p0.itemView.setOnLongClickListener {
-            mListener.onItemLongCLicked(p1)
+            mListener.onItemLongCLicked(items[p1].id!!)
             true
         }
     }

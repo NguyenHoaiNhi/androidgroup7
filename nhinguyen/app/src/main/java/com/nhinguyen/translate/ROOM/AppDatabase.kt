@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import com.nhinguyen.translate.DATABASE_NAME
 
-@Database(entities = arrayOf(Word::class, Folder::class), version = 3)
+@Database(entities = arrayOf(Word::class, Folder::class), version = 1)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun wordDAO(): WordDAO
     abstract fun folderDAO(): FolderDAO
