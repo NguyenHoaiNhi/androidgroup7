@@ -164,6 +164,7 @@ class FoldersFragment: Fragment() {
             //Log.i("Result ", position_folder.toString())
 
             folder[position_folder].fileUri = tempUri.toString()
+            daofolder.update(folder[position_folder])
             folderAdapter.changeIconItem(folder[position_folder], position_folder)
             //icFolder.setImageURI(tempUri)
         } else
