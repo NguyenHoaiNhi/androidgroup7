@@ -115,7 +115,8 @@ class FavoriteFragment: Fragment() {
             //val mDialogView = LayoutInflater.from(this@FavoriteFragment.context).inflate(R.layout.menu_dialog, null)
 
            // var wordNow = dao_favorite.findById(position+1)
-            var wordNow :Word= dao_favorite.findById(position)
+            var wordNow = dao_favorite.findById(position)
+
 
             val builder = AlertDialog.Builder(getContext())
             var delete = arrayOf("Delete")
