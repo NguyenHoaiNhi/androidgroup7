@@ -5,7 +5,9 @@ import android.app.AlertDialog
 import android.arch.persistence.room.Room
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -31,6 +33,7 @@ class FoldersFragment: Fragment() {
     var folder: ArrayList<Folder> = ArrayList()
     lateinit var folderAdapter: FolderAdapter
     lateinit var daofolder: FolderDAO
+    var position_folder: Int = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -105,6 +108,67 @@ class FoldersFragment: Fragment() {
             Log.i("intent", intent.toString())
             startActivity(intent)
         }
+        
+        override fun onItemLongCLicked(position: Int)
+        {
+            // Save position
+            position_folder = position
+            Log.e("Position click ", position_folder.toString())
+            //Toast.makeText(this@FoldersFragment.context, "Long click detected" , Toast.LENGTH_SHORT).show()
+            // Initialize an array of option
+            val option = arrayOf("Delete", "Select folder picture")
+            // Initialize a new instance of alert dialog builder object
+            val builder = AlertDialog.Builder(getContext())
+            with(builder)
 
+            {
+                setTitle("Choose option")
+                setItems(option) { dialog, which ->
+                    val selected = option[which]
+                    if (selected == "Delete")
+                    {
+                        daofolder.delete(folder[position])
+                        folderAdapter.removeItem(folder[position], position)
+                        folderAdapter.notifyDataSetChanged()
+                    }
+                    else
+                    {
+                        openGallery()
+                    }
+
+                    //updateWord(array[which], position)
+                    //wordNow.nameFolder = array[which]
+                    //Toast.makeText(this@FavoriteFragment.context, "Added to "+array[which] , Toast.LENGTH_SHORT).show()
+                }
+                show()
+            }
+        }
+
+        private  fun openGallery()
+        {
+            val pickImageIntent = Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+
+            startActivityForResult(pickImageIntent, AppConstants.PICK_PHOTO_REQUEST)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int,
+                                  data: Intent?) {
+        var tempUri: Uri? = null
+
+        if(resultCode == Activity.RESULT_OK
+            && requestCode == AppConstants.PICK_PHOTO_REQUEST){
+            //photo from gallery
+            tempUri = data?.data
+            //Log.i("Result ", position_folder.toString())
+
+            folder[position_folder].fileUri = tempUri.toString()
+            folderAdapter.changeIconItem(folder[position_folder], position_folder)
+            //icFolder.setImageURI(tempUri)
+        } else
+        {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 }

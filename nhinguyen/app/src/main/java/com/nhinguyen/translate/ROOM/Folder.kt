@@ -13,7 +13,8 @@ import kotlinx.android.parcel.Parcelize
 data class Folder(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
-    var folderName: String =""
+    var folderName: String ="",
+    var fileUri: String = ""
 ): Parcelable {
     constructor(): this(null, "")
 }

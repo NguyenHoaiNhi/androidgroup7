@@ -2,6 +2,7 @@ package com.nhinguyen.translate.Fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,9 +25,21 @@ class FolderAdapter (var items: ArrayList<Folder>, val context: Context) : Recyc
     }
     override fun onBindViewHolder(movieViewHolder: FolderViewHolder, position: Int) {
         movieViewHolder.txtFolder.text = items[position].folderName
+
+        if (items[position].fileUri != "")
+        {
+            val mUri = Uri.parse(items[position].fileUri)
+            movieViewHolder.IconFolder.setImageURI(mUri)
+        }
+
         movieViewHolder.itemView.setOnClickListener{
             Log.d("msg", "chuyen tab")
             mListener.onItemCLicked(position)
+        }
+        
+        movieViewHolder.itemView.setOnLongClickListener{
+            mListener.onItemLongCLicked(position)
+            true
         }
     }
 
@@ -39,10 +52,22 @@ class FolderAdapter (var items: ArrayList<Folder>, val context: Context) : Recyc
         this.mListener = listener
     }
 
+    fun removeItem(folderRemove: Folder, i: Int){
+        this.items.remove(folderRemove)
+        notifyItemRemoved(i)
+    }
+
+    fun changeIconItem(folderChange: Folder, i: Int)
+    {
+        this.items.set(i, folderChange)
+        notifyItemChanged(i)
+    }
+
 
 }
 
 
 class FolderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     var txtFolder = view.textFolder
+    var IconFolder = view.icFolder
 }
