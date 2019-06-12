@@ -42,7 +42,13 @@ class WordAdapter(var items: ArrayList<Word>, val context: Context) : RecyclerVi
         }
 
         p0.btnRemove.setOnClickListener{
+            mListener.onItemTrashCLicked(p1)
+        }
+
+        p0.itemView.setOnClickListener{
             mListener.onItemCLicked(p1)
+
+
         }
         p0.itemView.setOnLongClickListener {
             mListener.onItemLongCLicked(p1)
@@ -54,36 +60,10 @@ class WordAdapter(var items: ArrayList<Word>, val context: Context) : RecyclerVi
         this.mListener = listener
     }
 
-    fun removeItem(userRemove: Word, i: Int){
+    fun removeItem(userRemove: Word, i: Int) {
         this.items.remove(userRemove)
         notifyItemRemoved(i)
     }
-
-//    fun setData(items: ArrayList<Word>) {
-//        this.items = items
-//    }
-
-//    fun appenData(word: Word) {
-//        this.items.add(word)
-//        notifyItemInserted(items.size - 1)
-//    }
-//    fun availableItem(word : Word):Boolean {
-//        val size = this.items.size
-//
-//        if (size > 0)
-//        {
-//            for (i in 0 until size)
-//            {
-//                if(this.items[i].english == word.english && this.items[i].vietnamese == word.vietnamese)
-//                {
-//                    return false
-//                }
-//            }
-//        }
-//
-//        return true
-//    }
-
 }
 
 class WordViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -104,11 +104,13 @@ class FavoriteFragment: Fragment() {
 //        }
 //    }
     private val wordItemClickListener = object : WordItemClickListener {
-        override fun onItemCLicked(position: Int) {
-
+        override fun onItemTrashCLicked(position: Int) {
             dao_favorite.delete(words[position])
             wordAdapter.removeItem(words[position], position)
             wordAdapter.notifyDataSetChanged()
+        }
+
+        override fun onItemCLicked(position: Int) {
 
         }
 
