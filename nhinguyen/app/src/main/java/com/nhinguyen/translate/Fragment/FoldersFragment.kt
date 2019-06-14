@@ -33,6 +33,7 @@ class FoldersFragment: Fragment() {
     var folder: ArrayList<Folder> = ArrayList()
     lateinit var folderAdapter: FolderAdapter
     lateinit var daofolder: FolderDAO
+    var folder_id: Int? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_folder, container, false)
@@ -43,21 +44,22 @@ class FoldersFragment: Fragment() {
         initRoomDatabase()
         loadFolder()
         setupRecycleView()
-        createFolder.setOnClickListener{createNewFolder()}
+        createFolder.setOnClickListener { createNewFolder() }
     }
 
 
     private fun initRoomDatabase() {
         val dbfolder = Room.databaseBuilder(
             getContext()!!
-            , AppDatabase::class.java, DATABASE_NAME).allowMainThreadQueries()
+            , AppDatabase::class.java, DATABASE_NAME
+        ).allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .build()
         daofolder = dbfolder.folderDAO()
     }
 
     private fun setupRecycleView() {
-        rvFolder.layoutManager = GridLayoutManager(getContext()!!,2 )
+        rvFolder.layoutManager = GridLayoutManager(getContext()!!, 2)
 
         folderAdapter = FolderAdapter(folder, getContext()!!)
 
@@ -66,44 +68,68 @@ class FoldersFragment: Fragment() {
         folderAdapter.setListener(FolderItemClickListener)
     }
 
-    private fun createNewFolder(){
+    private fun createNewFolder() {
         val builder = AlertDialog.Builder(getContext())
         builder.setTitle("New Folder")
-        val view = layoutInflater.inflate(R.layout.new_folder_dialog,null)
+        val view = layoutInflater.inflate(R.layout.new_folder_dialog, null)
         val folderEditText = view.findViewById(R.id.newFolder) as EditText
         val createButton = view.findViewById(R.id.confirm) as Button
-        createButton.setOnClickListener{createDataFolder(folderEditText)}
+        createButton.setOnClickListener { createDataFolder(folderEditText) }
         builder.setView(view)
         builder.show()
     }
-    private fun createDataFolder(textFolder: EditText? ){
+
+    private fun createDataFolder(textFolder: EditText?) {
         val text = textFolder?.text.toString()
-        var compare : Folder? = daofolder.finByName(text)
-        if(compare?.folderName != null){
-            Toast.makeText(this@FoldersFragment.context, "Folder already existed" , Toast.LENGTH_SHORT).show()
-           return
+        var compare: Folder? = daofolder.finByName(text)
+        if (compare?.folderName != null) {
+            Toast.makeText(this@FoldersFragment.context, "Folder already existed", Toast.LENGTH_SHORT).show()
+            return
         }
 
         val folder = Folder()
-        if(text == "") Log.d("msg", "Nothing input")
-        else{
+        if (text == "") Log.d("msg", "Nothing input")
+        else {
             folder.folderName = text
             folder.id = daofolder.insert(folder).toInt()
             folderAdapter.appenData(folder)
         }
     }
-    private fun loadFolder(){
+
+    private fun loadFolder() {
         folder = ArrayList(daofolder.getAll())
     }
+
     private val FolderItemClickListener = object : FolderItemClickListener {
         override fun onItemCLicked(position: Int) {
             Log.i("Top Rate", "Hi")
             val intent = Intent(activity, FolderActivity::class.java)
-            intent.putExtra("idFolder",folder[position].id)
+            intent.putExtra("idFolder", folder[position].id)
             intent.putExtra("nameFolder", folder[position].folderName)
             Log.i("intent", intent.toString())
             startActivity(intent)
         }
 
+        override fun onItemLongCLicked(position: Int) {
+            folder_id = folder[position].id!!
+            val option = arrayOf("Delete")
+            // Initialize a new instance of alert dialog builder object
+            val builder = AlertDialog.Builder(getContext())
+            with(builder)
+            {
+                setTitle("Choose option")
+                setItems(option) { dialog, which ->
+                    val selected = option[which]
+                    if (selected == "Delete") {
+                        var folder_delete: Folder = daofolder.findById(folder[position].id)
+                        daofolder.delete(folder_delete)
+                        folderAdapter.removeItem(folder[position], position)
+                        folderAdapter.notifyDataSetChanged()
+                    }
+                }
+                show()
+
+            }
+        }
     }
 }

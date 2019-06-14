@@ -28,6 +28,10 @@ class FolderAdapter (var items: ArrayList<Folder>, val context: Context) : Recyc
             Log.d("msg", "chuyen tab")
             mListener.onItemCLicked(position)
         }
+        movieViewHolder.itemView.setOnLongClickListener{
+            mListener.onItemLongCLicked(position)
+            true
+        }
     }
 
     fun appenData(newFolderAdded: Folder){
@@ -38,6 +42,12 @@ class FolderAdapter (var items: ArrayList<Folder>, val context: Context) : Recyc
     fun setListener(listener: FolderItemClickListener) {
         this.mListener = listener
     }
+    fun removeItem(folderRemove: Folder, i: Int){
+        this.items.remove(folderRemove)
+        notifyItemRemoved(i)
+    }
+
+
 
 
 }

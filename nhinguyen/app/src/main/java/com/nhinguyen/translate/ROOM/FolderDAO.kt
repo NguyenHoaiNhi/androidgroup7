@@ -9,7 +9,7 @@ interface FolderDAO {
     fun getAll():List<Folder>
 
     @Query("SELECT * FROM folder WHERE id=:id")
-    fun findById(id: Int): Folder
+    fun findById(id: Int?): Folder
 
     @Query("SELECT * FROM folder WHERE folderName=:folder_name")
     fun finByName(folder_name: String?): Folder?
